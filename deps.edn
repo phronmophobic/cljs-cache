@@ -1,0 +1,7 @@
+{:deps {tailrecursion/cljs-priority-map {:mvn/version "1.2.1"}}
+ :aliases
+ {:test {:extra-paths ["test"]
+         :extra-deps  {org.clojure/clojurescript       {:mvn/version "1.11.54"}}
+         :main-opts   ["-m" "cljs.main"
+                       "-c" "cljs.cache-test"
+                       "-r"]}}}

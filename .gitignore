@@ -8,4 +8,8 @@ pom.xml
 .lein-repl-history
 .lein-plugins/
 .repl/
+.idea/
 .nrepl*
+.repl*
+.cpcache
+*.iml*
