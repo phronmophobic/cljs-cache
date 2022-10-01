@@ -6,11 +6,6 @@
                        "-c" "cljs.cache-test"
                        "-r"]}
 
-  :deploy {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
-           :exec-fn deps-deploy.deps-deploy/deploy
-           :exec-args {:installer :remote
-                       :sign-releases? true
-                       :artifact "deps-deploy.jar"}}
-
-  :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}}
+  :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}
+                 slipset/deps-deploy {:mvn/version "RELEASE"}}
           :ns-default build}}}
