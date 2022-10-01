@@ -6,7 +6,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns clojure.core.cache.wrapped
+(ns cljs.cache.wrapped
   "A higher level way to use clojure.core.cache that assumes the immutable
   cache is wrapped in an atom.
 
@@ -18,9 +18,9 @@
   In addition, lookup-or-miss provides a safe, atomic way to retrieve a
   value from a cache or compute it if it is missing, without risking a
   cache stampede."
-  (:require [clojure.core.cache :as c]))
+  (:require [cljs.cache :as c]))
 
-(set! *warn-on-reflection* true)
+
 
 (defn lookup
   "Retrieve the value associated with `e` if it exists, else `nil` in
@@ -132,24 +132,6 @@
   [base]
   (atom (c/basic-cache-factory base)))
 
-(defn fifo-cache-factory
-  "Returns a FIFO cache with the cache and FIFO queue initialized to `base` --
-   the queue is filled as the values are pulled out of `base`.  If the associative
-   structure can guarantee ordering, then the said ordering will define the
-   eventual eviction order.  Otherwise, there are no guarantees for the eventual
-   eviction ordering.
-
-   This function takes an optional `:threshold` argument that defines the maximum number
-   of elements in the cache before the FIFO semantics apply (default is 32).
-
-   If the number of elements in `base` is greater than the limit then some items
-   in `base` will be dropped from the resulting cache.  If the associative
-   structure used as `base` can guarantee sorting, then the last `limit` elements
-   will be used as the cache seed values.  Otherwise, there are no guarantees about
-   the elements in the resulting cache."
-  [base & {threshold :threshold :or {threshold 32}}]
-  (atom (c/fifo-cache-factory base :threshold threshold)))
-
 (defn lru-cache-factory
   "Returns an LRU cache with the cache and usage-table initialized to `base` --
    each entry is initialized with the same usage value.
@@ -168,30 +150,3 @@
   [base & {ttl :ttl :or {ttl 2000}}]
   (atom (c/ttl-cache-factory base :ttl ttl)))
 
-(defn lu-cache-factory
-  "Returns an LU cache with the cache and usage-table initialized to `base`.
-
-   This function takes an optional `:threshold` argument that defines the maximum number
-   of elements in the cache before the LU semantics apply (default is 32)."
-  [base & {threshold :threshold :or {threshold 32}}]
-  (atom (c/lu-cache-factory base :threshold threshold)))
-
-(defn lirs-cache-factory
-  "Returns an LIRS cache with the S & R LRU lists set to the indicated
-   limits."
-  [base & {:keys [s-history-limit q-history-limit]
-           :or {s-history-limit 32
-                q-history-limit 32}}]
-  (atom (c/lirs-cache-factory base
-                              :s-history-limit s-history-limit
-                              :q-history-limit q-history-limit)))
-
-(defn soft-cache-factory
-  "Returns a SoftReference cache.  Cached values will be referred to with
-  SoftReferences, allowing the values to be garbage collected when there is
-  memory pressure on the JVM.
-
-  SoftCache is a mutable cache, since it is always based on a
-  ConcurrentHashMap."
-  [base]
-  (atom (c/soft-cache-factory base)))

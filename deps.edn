@@ -4,4 +4,7 @@
          :extra-deps  {org.clojure/clojurescript       {:mvn/version "1.11.54"}}
          :main-opts   ["-m" "cljs.main"
                        "-c" "cljs.cache-test"
-                       "-r"]}}}
+                       "-r"]}
+
+  :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.3" :git/sha "0d20256"}}
+          :ns-default build}}}
