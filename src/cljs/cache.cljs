@@ -56,7 +56,6 @@
   ([cache item] (through-cache cache item default-wrapper-fn identity))
   ([cache item value-fn] (through-cache cache item default-wrapper-fn value-fn))
   ([cache item wrap-fn value-fn]
-   (prn "the cache" cache)
    (if (has? cache item)
      (hit cache item)
      (miss cache item (wrap-fn #(value-fn %) item)))))
